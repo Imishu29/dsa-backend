@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Problem = require('../models/Problem');
-const auth = require('../middleware/auth');
+
 
 // Get all problems
 router.get('/', async (req, res) => {

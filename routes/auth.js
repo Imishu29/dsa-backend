@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const auth = require('../middleware/auth');
+
 
 // Register
 router.post('/register', async (req, res) => {
@@ -32,15 +32,9 @@ router.post('/register', async (req, res) => {
       }
     };
     
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' },
-      (err, token) => {
-        if (err) throw err;
+    
         res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
-      }
-    );
+     
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -67,16 +61,8 @@ router.post('/login', async (req, res) => {
         id: user.id
       }
     };
-    
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
-      }
-    );
+        res.json({  user: { id: user.id, name: user.name, email: user.email } });
+     
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -84,7 +70,7 @@ router.post('/login', async (req, res) => {
 });
 
 // Get current user
-router.get('/me', auth, async (req, res) => {
+router.get('/me', async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
     res.json(user);
