@@ -23,6 +23,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/dsa-sheet
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/problems', require('./routes/problem'));
 app.use('/api/progress', require('./routes/progress'));
+app.use('/api/visitors', require('./routes/visitor.routes'));
 
 // Root route
 app.get('/', (req, res) => {
